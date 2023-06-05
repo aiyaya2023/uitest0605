@@ -1,10 +1,10 @@
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
-  projectId: "z4j9wf",
-  key: "cbfa8b78-74fa-44d6-99cb-aa18e0044dc4",
+  projectId: "x3jbxv",
+  key: "943b8917-2586-41c7-a944-9676c46248f5",
   "env": {
-    "CYPRESS_RECORD_KEY": "cbfa8b78-74fa-44d6-99cb-aa18e0044dc4"
+    "CYPRESS_RECORD_KEY": "943b8917-2586-41c7-a944-9676c46248f5"
   },
   fixturesFolder: false,
   e2e: {
