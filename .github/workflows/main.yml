@@ -32,7 +32,7 @@ jobs:
           browser: chrome
 
       - name: Run Cypress tests
-        run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+        run: npx cypress run --record --key 943b8917-2586-41c7-a944-9676c46248f5
         working-directory: testcode/browser
 
       - uses: actions/upload-artifact@v3
