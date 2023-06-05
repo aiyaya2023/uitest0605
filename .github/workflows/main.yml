@@ -1,0 +1,69 @@
+name: chrome-testaction
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Cypress v10 and higher ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+  tests:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cypress info
+        uses: ./
+        with:
+          # just for full picture after installing Cypress
+          # print information about detected browsers, etc
+          # see https://on.cypress.io/command-line#cypress-info
+          build: npx cypress info
+          working-directory: testcode/browser
+
+      - name: Chrome
+        uses: ./
+        with:
+          working-directory: testcode/browser
+          browser: chrome
+
+      - name: Run Cypress tests
+        run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+        working-directory: testcode/browser
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: screenshots-in-chrome
+          path: testcode/browser/cypress/screenshots
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: video-in-chrome
+          path: testcode/browser/cypress/videos
+
+      - run: npx image-size cypress/screenshots/**/*.png
+        working-directory: testcode/browser
+
+      - name: Chrome headless
+        uses: ./
+        with:
+          working-directory: testcode/browser
+          browser: chrome
+          headed: false
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: screenshots-in-headless-chrome
+          path: testcode/browser/cypress/screenshots
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: video-in-headless-chrome
+          path: testcode/browser/cypress/videos
+
+      - run: npx image-size cypress/screenshots/**/*.png
+        working-directory: testcode/browser
